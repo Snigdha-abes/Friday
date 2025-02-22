@@ -15,7 +15,10 @@ app.post('/ask', async (req, res) => {
         const { question } = req.body;
 
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        const result = await model.generateContent(question);
+        const result = await model.generateContent({
+            contents: [{ role: "user", parts: [{ text: question }]}]  // Correct format
+        });
+        
         const response = await result.response;
         const text = response.text();
 
